@@ -20,10 +20,10 @@ Thing topic FF_Bedroom_Vent "Ventilator" @ "Schlafzimmer"{
 }  
 
 .items
-Switch FF_Bedroom_Ventilation_State "Ventilator TEST" (gContact, FF_Bedroom) {channel="mqtt:topic:boschhome:FF_Bedroom_Vent:vent_state "}
-Number FF_Bedroom_Ventilation_Luftfeuchtigkeit "Luftfeuchtigkeit Ventilation" (gHumidity,FF_Bedroom)  {channel="mqtt:topic:boschhome:FF_Bedroom_Vent:luftfeuchtigkeit"}
-String FF_Bedroom_Ventilation_Geschwindigkeit "Geschwindigkeit" (FF_Bedroom)  {channel="mqtt:topic:boschhome:FF_Bedroom_Vent:geschwindigkeit"}
-String FF_Bedroom_Ventilation_Airflow "Modus" (FF_Bedroom)  {channel="mqtt:topic:boschhome:FF_Bedroom_Vent:Airflow"}
+Switch FF_Bedroom_Ventilation_State "Ventilator TEST" (gContact, FF_Bedroom) {channel="mqtt:topic:xxxhome:FF_Bedroom_Vent:vent_state "}
+Number FF_Bedroom_Ventilation_Luftfeuchtigkeit "Luftfeuchtigkeit Ventilation" (gHumidity,FF_Bedroom)  {channel="mqtt:topic:xxxhome:FF_Bedroom_Vent:luftfeuchtigkeit"}
+String FF_Bedroom_Ventilation_Geschwindigkeit "Geschwindigkeit" (FF_Bedroom)  {channel="mqtt:topic:xxxhome:FF_Bedroom_Vent:geschwindigkeit"}
+String FF_Bedroom_Ventilation_Airflow "Modus" (FF_Bedroom)  {channel="mqtt:topic:xxxhome:FF_Bedroom_Vent:Airflow"}
 
 
 
