@@ -1,5 +1,5 @@
 import paho.mqtt.client as mqttClient
-from ecovent.host import Fan #bew name, because the original source not available for Python 3.5
+from ecovent.host import Fan #new name, because the original source not available for Python 3.5
 import os
 import datetime
 import time
