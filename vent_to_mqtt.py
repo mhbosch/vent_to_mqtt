@@ -77,7 +77,7 @@ client.on_message = on_message
 client.on_subscribe = on_subscribe
 client.on_unsubscribe = on_unsubscribe
 client.connect(broker_address, port=port)
-client.subscribe("Vent/Blauberg", 0)     
+client.subscribe("Vent/Blauberg/Command", 0)     
 client.loop_start()
 
 
