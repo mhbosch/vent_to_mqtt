@@ -1,0 +1,4 @@
+Switch FF_Bedroom_Ventilation_State "Ventilator TEST" (gContact, FF_Bedroom) {channel="mqtt:topic:boschhome:FF_Bedroom_Vent:vent_state "}
+Number:Dimensionless FF_Bedroom_Ventilation_Luftfeuchtigkeit "Luftfeuchtigkeit Ventilation [%d %%]" <humidity>	 (gHumidity,FF_Bedroom) ["Humidity"] {channel="mqtt:topic:boschhome:FF_Bedroom_Vent:luftfeuchtigkeit"}
+String FF_Bedroom_Ventilation_Geschwindigkeit "Geschwindigkeit" <fan> (FF_Bedroom)  {channel="mqtt:topic:boschhome:FF_Bedroom_Vent:geschwindigkeit"}
+String FF_Bedroom_Ventilation_Airflow "Modus"  <fan>  (FF_Bedroom) {channel="mqtt:topic:boschhome:FF_Bedroom_Vent:Airflow"}
