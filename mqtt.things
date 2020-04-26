@@ -1,0 +1,10 @@
+Bridge mqtt:broker:xxx [ host="localhost", secure=false, username="xxx", password="xxx" ]
+{
+  
+Thing topic FF_Bedroom_Vent "Ventilator" @ "Schlafzimmer"{
+    Channels:
+            Type switch : vent_state [ stateTopic="Vent/Blauberg/State", transformationPattern="map:blauberg.map" , commandTopic="Vent/Blauberg/Command", on="ON", off="OFF"]
+            Type number : luftfeuchtigkeit [ stateTopic="Vent/Blauberg/Humidity" ]
+            Type string : geschwindigkeit [ stateTopic="Vent/Blauberg/Fan_Speed" ]
+            Type string : Airflow [ stateTopic="Vent/Blauberg/Airflow" ]	
+}
