@@ -1,0 +1,13 @@
+[Unit]
+Description=vent_to_mqtt
+After=network.target
+
+[Service]
+ExecStart=/opt/vent_to_mqtt/vent_to_mqtt.py
+StandardOutput=syslog+console
+StandardError=syslog+console
+Restart=always
+Environment=PYTHONUNBUFFERED=1
+User=openhabian
+
+[Install]
