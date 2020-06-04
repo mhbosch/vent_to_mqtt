@@ -76,7 +76,8 @@ def on_connect(client, userdata, flags, rc):
         print("Connected to broker mit rc="+str(rc))
         global Connected
         Connected = True
-        # client.subscribe('Vent/Blauberg')
+        client.subscribe([("Vent/Blauberg/Command/State", 0),("Vent/Blauberg/Command/Speed", 0),("Vent/Blauberg/Command/Airflow", 0)])
+
     elif rc == 1:
         print("Falsche Protokollversion")
     elif rc == 2:
