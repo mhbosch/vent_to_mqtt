@@ -3,7 +3,7 @@ Bridge mqtt:broker:xxx [ host="localhost", secure=false, username="xxx", passwor
   
 Thing topic FF_Bedroom_Vent "Ventilator" @ "Schlafzimmer"{
     Channels:
- Type switch : vent_state [ stateTopic="Vent/Blauberg/Status", commandTopic="Vent/Blauberg/Command/State", transformationPattern="JSONPATH:$.State", ON="1", OFF="0"]
+ Type switch : vent_state [ stateTopic="Vent/Blauberg/Status", commandTopic="Vent/Blauberg/Command/State", transformationPattern="JSONPATH:$.State", on="1", off="0"]
             Type number : luftfeuchtigkeit [ stateTopic="Vent/Blauberg/Status" , transformationPattern="JSONPATH:$.Humidity"]
             Type number : geschwindigkeit [ stateTopic="Vent/Blauberg/Status", commandTopic="Vent/Blauberg/Command/Speed", transformationPattern="JSONPATH:$.Speed"]
             Type number : Airflow [ stateTopic="Vent/Blauberg/Status", commandTopic="Vent/Blauberg/Command/Airflow", transformationPattern="JSONPATH:$.Airflow" ]
