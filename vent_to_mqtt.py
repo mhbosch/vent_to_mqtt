@@ -96,6 +96,9 @@ def on_message(client, userdata, message):
     global Ventilator_state
     global Ventilator_speed
     global Ventilator_airflow
+    global change_onoff
+    global change_speed
+    global change_airflow
 
     print("Messagetopic=" + message.topic + " Message=" + str(message.payload))
     data = str(message.payload)
@@ -104,12 +107,15 @@ def on_message(client, userdata, message):
 
     if str(message.topic) == "Vent/Blauberg/Command/State":
         Ventilator_state = data
+        change_onoff = True
 
     if str(message.topic) == "Vent/Blauberg/Command/Speed":
         Ventilator_speed = data
+        change_speed = True
 
     if str(message.topic) == "Vent/Blauberg/Command/Airflow":
         Ventilator_airflow = data
+        change_airflow = True
 
 
 
@@ -118,7 +124,7 @@ def on_subscribe(client, userdata, mid, granted_qos):
 
 
 def on_unsubscribe(client, userdata, mid):
-    print("Unsubscripe empfangen")
+    print("Unsubscribe empfangen")
 
 
 def on_disconnect(client, userdata, rc):
@@ -145,6 +151,7 @@ def connect_start(client):
 
 
 
+
 def abfragenloop():
     global socket_fehler
     global sleeptime
@@ -152,6 +159,9 @@ def abfragenloop():
     global Ventilator_speed
     global Ventilator_airflow
     global Ventilator_IP
+    global change_onoff
+    global change_airflow
+    global change_speed
     wait_vent = 1
     alterstatus = ""
 
@@ -185,20 +195,33 @@ def abfragenloop():
                 Ventilator_speed = Vent.speed
             if Ventilator_airflow == False:
                 Ventilator_airflow = Vent.airflow
-            
-            #print ("Vent speed=" + str(Vent.speed) + str(Ventilator_speed))
+ 
             if int(Ventilator_state) != int(Vent.state):
-                print ("Der An/Aus Status ist verschieden! " + str(Ventilator_state ) + " - " + str(Vent.state) )
-                UDPSock.sendto(bytes.fromhex('6D6F62696C6503000D0A'), addr)
+                    if change_onoff == True:
+                        print ("Der An/Aus Status ist verschieden! " + str(Ventilator_state ) + " - " + str(Vent.state) )
+                        UDPSock.sendto(bytes.fromhex('6D6F62696C6503000D0A'), addr)
+                    else:
+                        Ventilator_state = Vent.state
+            else:
+                    change_onoff = False
             if int(Ventilator_speed) != int(Vent.speed):
-                print ("Der Geschwindigkeits Status ist verschieden! " + str(Ventilator_speed ) + " - " + str(Vent.speed) )
-                cmd= '04' + '{0:0{1}x}'.format(int(Ventilator_speed),2)
-                UDPSock.sendto((HEADER + bytes.fromhex(cmd) + FOOTER), addr)
+                if change_speed == True:
+                    print ("Der Geschwindigkeits Status ist verschieden! " + str(Ventilator_speed ) + " - " + str(Vent.speed) )
+                    cmd= '04' + '{0:0{1}x}'.format(int(Ventilator_speed),2)
+                    UDPSock.sendto((HEADER + bytes.fromhex(cmd) + FOOTER), addr)
+                else:
+                    Ventilator_speed = Vent.speed
+            else:
+                change_speed = False
             if int(Ventilator_airflow) != int(Vent.airflow):
-                print ("Der Airflow Status ist verschieden! " + str(Ventilator_airflow ) + " - " + str(Vent.airflow) )
-                cmd= '06' + '{0:0{1}x}'.format(int(Ventilator_airflow),2)
-                UDPSock.sendto((HEADER + bytes.fromhex(cmd) + FOOTER), addr)
-                
+                if change_airflow == True:
+                    print ("Der Airflow Status ist verschieden! " + str(Ventilator_airflow ) + " - " + str(Vent.airflow) )
+                    cmd= '06' + '{0:0{1}x}'.format(int(Ventilator_airflow),2)
+                    UDPSock.sendto((HEADER + bytes.fromhex(cmd) + FOOTER), addr)
+                else:
+                    Ventilator_airflow = Vent.airflow
+            else:
+                change_airflow = False
             #print("Status = " + status) # + " Anzahl der gesamten Socket_Error = " + str(socket_fehler))
             payload = { 'State': str(Vent.state),'Humidity': str(Vent.humidity), 'Speed': str(Vent.speed), 'Airflow': str(Vent.airflow), 'Man_speed' : str(Vent.man_speed)}
             print (payload)
@@ -242,7 +265,7 @@ def exit_gracefully(signum, frame):
 # ---------------------------------------------------------------------
 Connected = False
 Vent = Ventilator("Bosch")
-Ventilator_IP = "IP_OF_VENT"
+Ventilator_IP = "192.168.0.150"
 anzahl_fehler   = 0  # Initialisierung
 #max_retries     = 10  # Anzahl der Timeouts, bevor die Verbindung als OFFLINE gemeldet wird
 sleeptime       = 5  # Sekunden zwischen den Abfragen
@@ -250,12 +273,15 @@ socket_fehler   = 0
 Ventilator_state = False
 Ventilator_speed = False
 Ventilator_airflow = False
+change_onoff = False
+change_speed = False
+change_airflow = False
 
 
-broker_address = "BROKER_IP"  # Your MQTT broker IP address
+broker_address = "127.0.0.1"  # Your MQTT broker IP address
 port = 1883  # default port change as required
-user = "_USER_"  # mqtt user name change as required
-password = "_PASSWORD_"  # mqtt password change as required
+user = "youruser"  # mqtt user name change as required
+password = "yourpassword"  # mqtt password change as required
 client = mqttClient.Client("Vent")
 client.username_pw_set(user, password=password)
 client.on_connect = on_connect
