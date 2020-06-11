@@ -11,3 +11,4 @@ Environment=PYTHONUNBUFFERED=1
 User=openhabian
 
 [Install]
+WantedBy=multi-user.target
